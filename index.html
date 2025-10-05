@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bittu's Kitchen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+bod{
+  margin: 0;
+  min-height: 100vh;
+  color: #e8e6e3;
+  font-family: var(--ff-ui);
+  -webkit-font-smoothing: antialiased;
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 0;
+}
+
+/* Background image with opacity */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  /* background: url("YouTube.jpg") center/cover no-repeat; */
+  opacity: 0.1;
+  z-index: -1; /* behind everything */
+}
+
+    
+    :root{
+      --bg:#0b0b0d;
+      --surface:#0f1114;
+      --muted:#9aa0a6;
+      --gold1:#d4af37;
+      --gold2:#ffcc66;
+      --accent: linear-gradient(90deg,var(--gold1),var(--gold2));
+      --glass: rgba(255,255,255,0.03);
+      --card-radius:16px;
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      --glass-strong: rgba(255,255,255,0.04);
+      --maxw:1200px;
+      --gap:20px;
+      --ff-heading: 'Playfair Display', serif;
+      --ff-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:radial-gradient(1200px 600px at 10% 10%, rgba(212,175,55,0.06), transparent 6%),
+                      radial-gradient(1000px 500px at 95% 90%, rgba(255,204,102,0.04), transparent 8%),
+                      var(--bg);
+      color:#e8e6e3;font-family:var(--ff-ui);-webkit-font-smoothing:antialiased;padding:32px;display:flex;justify-content:center;
+    }
+
+    .container{width:100%;max-width:var(--maxw);display:grid;grid-template-columns:380px 1fr;gap:var(--gap);align-items:start}
+
+    /* LEFT - Cover */
+    .cover{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--card-radius);padding:28px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,0.03);
+      position:relative;overflow:hidden;
+    }
+    .brand{display:flex;gap:16px;align-items:center}
+    .logo{
+      width:86px;height:86px;border-radius:14px;background:linear-gradient(135deg,var(--gold1),var(--gold2));display:flex;align-items:center;justify-content:center;color:#0b0b0d;font-family:var(--ff-heading);font-size:28px;font-weight:700;box-shadow:0 6px 22px rgba(212,175,55,0.12)
+    }
+    .brand h1{margin:0;font-family:var(--ff-heading);font-size:22px;letter-spacing:0.6px}
+    .brand p{margin:2px 0 0 0;color:var(--muted);font-size:13px}
+
+    .cover-hero{margin-top:18px;border-radius:12px;overflow:hidden;height:260px;background:linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.5));display:flex;align-items:end}
+    .cover-hero img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.03);filter:contrast(1.05) saturate(1.05)}
+    .cover-hero .overlay{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay}
+
+    .cover-meta{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+    .badge{background:linear-gradient(90deg,rgba(212,175,55,0.12),rgba(255,204,102,0.06));padding:8px 12px;border-radius:999px;font-size:13px;color:var(--gold2);border:1px solid rgba(212,175,55,0.09)}
+
+    /* RIGHT - Menu */
+    .menu{
+      display:flex;flex-direction:column;gap:18px;
+    }
+    .menu-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .title{font-family:var(--ff-heading);font-size:28px;margin:0}
+    .subtitle{color:var(--muted);font-size:14px;margin-top:6px}
+
+    .controls{display:flex;gap:12px;align-items:center}
+    .search{
+      background:var(--glass);backdrop-filter:blur(6px);padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;gap:10px;align-items:center;min-width:300px
+    }
+    .search input{background:transparent;border:0;outline:0;color:inherit;font-size:14px;width:100%}
+
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab{padding:8px 14px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.03);font-size:13px;color:var(--muted);cursor:pointer}
+    .tab.active{background:var(--accent);color:#0b0b0d;border:none;box-shadow:0 8px 30px rgba(212,175,55,0.12)}
+
+    .menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border-radius:12px;padding:14px;display:flex;gap:14px;align-items:start;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 24px rgba(2,6,23,0.6);transition:transform .28s cubic-bezier(.2,.9,.2,1),box-shadow .28s}
+    .card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(2,6,23,0.7)}
+
+    .thumb{width:120px;height:96px;border-radius:10px;overflow:hidden;flex-shrink:0;border:1px solid rgba(255,255,255,0.03)}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+    .card:hover .thumb img{transform:scale(1.06)}
+
+    .info{flex:1}
+    .dish{font-size:16px;font-weight:600;margin:0;font-family:var(--ff-heading)}
+    .desc{color:var(--muted);font-size:13px;margin-top:6px}
+    .meta-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+    .price{font-weight:700;font-size:16px;color:var(--gold2)}
+    .tags{display:flex;gap:8px}
+    .pill{padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.03);font-size:12px;color:var(--muted);background:transparent}
+
+    /* CTA area */
+    .cta-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+    .btn-primary{background:linear-gradient(90deg,var(--gold1),var(--gold2));border:none;padding:12px 18px;border-radius:12px;color:#0b0b0d;font-weight:700;cursor:pointer;box-shadow:0 8px 30px rgba(212,175,55,0.12)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px 14px;border-radius:12px;color:var(--muted);cursor:pointer}
+
+    /* Cart styles */
+    .cart-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+    }
+    
+    .cart-button {
+      background: linear-gradient(90deg,var(--gold1),var(--gold2));
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(212,175,55,0.12);
+      cursor: pointer;
+      position: relative;
+      border: none;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #e74c3c;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .cart-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 11, 13, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .cart-modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .cart-content {
+      background: var(--surface);
+      width: 90%;
+      max-width: 500px;
+      border-radius: var(--card-radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.03);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      padding-bottom: 12px;
+    }
+    
+    .cart-title {
+      font-family: var(--ff-heading);
+      font-size: 22px;
+      margin: 0;
+      color: var(--gold2);
+    }
+    
+    .close-cart {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    
+    .cart-items {
+      margin-bottom: 20px;
+    }
+    
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    
+    .item-info {
+      flex: 1;
+    }
+    
+    .item-name {
+      font-weight: 600;
+      margin: 0 0 4px 0;
+    }
+    
+    .item-price {
+      color: var(--gold2);
+      font-size: 14px;
+    }
+    
+    .item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .quantity-btn {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.03);
+      color: var(--muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .quantity {
+      font-weight: 600;
+    }
+    
+    .remove-item {
+      background: transparent;
+      border: none;
+      color: #e74c3c;
+      cursor: pointer;
+      margin-left: 12px;
+    }
+    
+    .cart-empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 20px 0;
+    }
+    
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      font-weight: 600;
+      font-size: 18px;
+    }
+    
+    .total-amount {
+      color: var(--gold2);
+    }
+    
+    .cart-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .btn-whatsapp {
+      background: #25D366;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      justify-content: center;
+    }
+    
+    .btn-clear {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.04);
+      padding: 10px 14px;
+      border-radius: 12px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    /* small screen */
+    @media (max-width:980px){
+      .container{grid-template-columns:1fr;}
+      .menu-grid{grid-template-columns:1fr}
+      .thumb{width:90px;height:70px}
+      .search{min-width:unset;width:100%}
+    }
+
+    /* subtle animated gradient line */
+    .gold-line{height:4px;border-radius:999px;background:linear-gradient(90deg,var(--gold1),var(--gold2));box-shadow:0 8px 30px rgba(212,175,55,0.08);margin-top:6px}
+
+    /* print */
+    @media print{body{background:white;color:black} .cover-hero, .controls{display:none} .cart-container{display:none}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <main class="menu">
+      <div class="menu-head">
+        <div>
+          <h2 class="title"> Bittu's Kitchen</h2>
+          <div class="subtitle"> • Veg — Non Veg</div>
+          <div class="gold-line"></div>
+        </div>
+
+        <div class="controls">
+          <div class="search" role="search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M21 21l-4.35-4.35" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+              <circle cx="11" cy="11" r="6" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></circle>
+            </svg>
+            <input id="search" placeholder="Search dishes, ingredients..." />
+          </div>
+
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-cat="all">All</button>
+            <button class="tab" data-cat="Chicken Special">Chicken Special</button>
+            <button class="tab" data-cat="Mutton Special">Mutton Special</button>
+            <button class="tab" data-cat="breads">Roti</button>
+            <!-- <button class="tab" data-cat="drinks">Drinks</button> -->
+            <button class="tab" data-cat="non veg">Egg Masala</button>
+          </div>
+        </div>
+      </div>
+
+      <section class="menu-grid" id="menuGrid">
+        <!-- Cards injected by JS -->
+      </section>
+
+      <div style="display:flex;justify-content:flex-end;margin-top:6px">
+        <!-- <button class="btn-ghost" onclick="window.print()">Print Menu</button> -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Cart Button -->
+  <div class="cart-container">
+    <button class="cart-button" id="cartButton">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <div class="cart-header">
+        <h3 class="cart-title">Your Order</h3>
+        <button class="close-cart" id="closeCart">&times;</button>
+      </div>
+      
+      <div class="cart-items" id="cartItems">
+        <!-- Cart items will be inserted here -->
+        <div class="cart-empty" id="cartEmpty">Your cart is empty</div>
+      </div>
+      
+      <div class="cart-total">
+        <span>Total:</span>
+        <span class="total-amount" id="cartTotal">₹0</span>
+      </div>
+      
+      <div class="cart-actions">
+        <button class="btn-clear" id="clearCart">Clear Cart</button>
+        <button class="btn-whatsapp" id="whatsappOrder">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.488"/>
+          </svg>
+          Order via WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const data = [
+  // Chicken Special
+  {id:33,cat:'Chicken Special',name:'Chicken Masala',desc:'Spicy chicken masala curry',price:'₹250',tags:['Spicy','Chicken'],img:'img/chicken-masala.jpg'},
+  {id:34,cat:'Chicken Special',name:'Chicken Curry',desc:'Mild chicken curry',price:'₹240',tags:['Mild','Chicken'],img:'img/chicken-curry.jpg'},
+  {id:35,cat:'Chicken Special',name:'Chicken Fry',desc:'Crispy fried chicken',price:'₹240',tags:['Crispy','Chicken'],img:'img/chicken-fry.jpg'},
+  {id:36,cat:'Chicken Special',name:'Chicken Ukkad',desc:'Traditional chicken preparation',price:'₹180',tags:['Traditional','Chicken'],img:'img/chicken-ukkad.jpg'},
+  {id:37,cat:'Chicken Special',name:'Chicken Thecha',desc:'Spicy thecha style chicken',price:'₹260',tags:['Spicy','Chicken'],img:'img/chicken-thecha.jpg'},
+  {id:38,cat:'Chicken Special',name:'Chicken Roast',desc:'Roasted chicken with spices',price:'₹240',tags:['Roasted','Chicken'],img:'img/chicken-roast.jpg'},
+
+  // Mutton Special
+  {id:39,cat:'Mutton Special',name:'Mutton Masala',desc:'Rich mutton masala curry',price:'₹270',tags:['Spicy','Mutton'],img:'img/mutton-masala.jpg'},
+  {id:40,cat:'Mutton Special',name:'Mutton Curry',desc:'Classic mutton curry',price:'₹260',tags:['Mild','Mutton'],img:'img/mutton-curry.jpg'},
+  {id:41,cat:'Mutton Special',name:'Mutton Fry',desc:'Fried mutton pieces',price:'₹250',tags:['Crispy','Mutton'],img:'img/mutton-fry.jpg'},
+  {id:42,cat:'Mutton Special',name:'Mutton Ukkad',desc:'Traditional mutton preparation',price:'₹220',tags:['Traditional','Mutton'],img:'img/mutton-ukkad.jpg'},
+  {id:43,cat:'Mutton Special',name:'Mutton Keema',desc:'Spiced minced mutton',price:'₹300',tags:['Minced','Mutton'],img:'img/mutton-keema.jpg'},
+  {id:44,cat:'Mutton Special',name:'Mutton Keema Ladu (5 Pcs)',desc:'Mutton keema balls',price:'₹350',tags:['Minced','Mutton'],img:'img/mutton-keema-ladu.jpg'},
+  {id:45,cat:'Mutton Special',name:'Mutton Thecha',desc:'Spicy thecha style mutton',price:'₹280',tags:['Spicy','Mutton'],img:'img/mutton-thecha.jpg'},
+
+  // Roti
+  {id:46,cat:'breads',name:'Chapati',desc:'Soft wheat flatbread',price:'₹20',tags:['Wheat','Flatbread'],img:'img/chapati.jpg'},
+  {id:47,cat:'breads',name:'Bhakri (Jawar/Bajri)',desc:'Traditional millet flatbread',price:'₹25',tags:['Millet','Traditional'],img:'img/bhakri.jpg'},
+  {id:48,cat:'breads',name:'Rice',desc:'Steamed rice',price:'₹80',tags:['Steamed','Rice'],img:'img/rice.jpg'},
+
+  // Egg Masala
+  {id:49,cat:'non veg',name:'Egg Masala',desc:'Eggs in spicy masala gravy',price:'₹170',tags:['Spicy','Egg'],img:'img/egg-masala.jpg'},
+  {id:50,cat:'non veg',name:'Egg Curry (2 Eggs)',desc:'Eggs in mild curry',price:'₹150',tags:['Mild','Egg'],img:'img/egg-curry.jpg'},
+  {id:51,cat:'non veg',name:'Egg Curry (4 Eggs)',desc:'Eggs in mild curry',price:'₹180',tags:['Mild','Egg'],img:'img/egg-curry.jpg'},
+  {id:52,cat:'non veg',name:'Egg Omelette',desc:'Plain egg omelette',price:'₹100',tags:['Egg','Breakfast'],img:'img/egg-omelette.jpg'},
+  {id:53,cat:'non veg',name:'Egg Bhurji',desc:'Indian style scrambled eggs',price:'₹100',tags:['Spicy','Egg'],img:'img/egg-bhurji.jpg'},
+  {id:54,cat:'non veg',name:'Egg Boil',desc:'Boiled eggs',price:'₹40',tags:['Egg','Healthy'],img:'img/egg-boil.jpg'},
+  {id:55,cat:'non veg',name:'Egg Fry',desc:'Fried eggs',price:'₹140',tags:['Egg','Fried'],img:'img/egg-fry.jpg'},
+
+  // Veg Special
+  //{id:56,cat:'mains',name:'Soyabin Fry',desc:'Fried soyabean preparation',price:'₹150',tags:['Soyabean','Fried'],img:'img/soyabin-fry.jpg'},
+  //{id:57,cat:'mains',name:'Soyabin Curry',desc:'Soyabean in curry',price:'₹180',tags:['Soyabean','Curry'],img:'img/soyabin-curry.jpg'},
+  //{id:58,cat:'mains',name:'Paner Tikka Masala',desc:'Paneer in tikka masala',price:'₹260',tags:['Paneer','Spicy'],img:'img/paner-tikka-masala.jpg'},
+ // {id:59,cat:'mains',name:'Jeera Aloo',desc:'Potato with cumin seeds',price:'₹180',tags:['Potato','Cumin'],img:'img/jeera-aloo.jpg'},
+  //{id:60,cat:'mains',name:'Shev Bhaji',desc:'Curry with gram flour noodles',price:'₹180',tags:['Gram Flour','Curry'],img:'img/shev-bhaji.jpg'},
+  //{id:61,cat:'mains',name:'Dal Tadka',desc:'Tempered lentil curry',price:'₹180',tags:['Lentil','Tempered'],img:'img/dal-tadka.jpg'},
+  //{id:62,cat:'mains',name:'Shevga Fry',desc:'Fried drumsticks',price:'₹200',tags:['Drumstick','Fried'],img:'img/shevga-fry.jpg'},
+  //{id:63,cat:'mains',name:'Shevga Curry',desc:'Drumsticks in curry',price:'₹220',tags:['Drumstick','Curry'],img:'img/shevga-curry.jpg'},
+  //{id:64,cat:'mains',name:'Besan',desc:'Gram flour preparation',price:'₹160',tags:['Gram Flour','Traditional'],img:'img/besan.jpg'}
+];
+
+    // Cart functionality
+    let cart = [];
+    const cartButton = document.getElementById('cartButton');
+    const cartCount = document.getElementById('cartCount');
+    const cartModal = document.getElementById('cartModal');
+    const closeCart = document.getElementById('closeCart');
+    const cartItems = document.getElementById('cartItems');
+    const cartEmpty = document.getElementById('cartEmpty');
+    const cartTotal = document.getElementById('cartTotal');
+    const clearCart = document.getElementById('clearCart');
+    const whatsappOrder = document.getElementById('whatsappOrder');
+
+    // Initialize cart from localStorage if available
+    function initCart() {
+      const savedCart = localStorage.getItem('hotelMaiCart');
+      if (savedCart) {
+        cart = JSON.parse(savedCart);
+        updateCartUI();
+      }
+    }
+
+    // Save cart to localStorage
+    function saveCart() {
+      localStorage.setItem('hotelMaiCart', JSON.stringify(cart));
+    }
+
+    // Add item to cart
+    function addItemToCart(item) {
+      const existingItem = cart.find(cartItem => cartItem.id === item.id);
+      
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: 1
+        });
+      }
+      
+      saveCart();
+      updateCartUI();
+      
+      // Show confirmation animation
+      cartCount.style.transform = 'scale(1.5)';
+      setTimeout(() => {
+        cartCount.style.transform = 'scale(1)';
+      }, 300);
+    }
+
+    // Remove item from cart
+    function removeFromCart(itemId) {
+      cart = cart.filter(item => item.id !== itemId);
+      saveCart();
+      updateCartUI();
+    }
+
+    // Update item quantity in cart
+    function updateQuantity(itemId, change) {
+      const item = cart.find(item => item.id === itemId);
+      
+      if (item) {
+        item.quantity += change;
+        
+        if (item.quantity <= 0) {
+          removeFromCart(itemId);
+        } else {
+          saveCart();
+          updateCartUI();
+        }
+      }
+    }
+
+    // Calculate total price
+    function calculateTotal() {
+      return cart.reduce((total, item) => {
+        const price = parseInt(item.price.replace('₹', '').replace(',', ''));
+        return total + (price * item.quantity);
+      }, 0);
+    }
+
+    // Update cart UI
+    function updateCartUI() {
+      // Update cart count
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = totalItems;
+      
+      // Show/hide empty cart message
+      if (cart.length === 0) {
+        cartEmpty.style.display = 'block';
+      } else {
+        cartEmpty.style.display = 'none';
+      }
+      
+      // Update cart items
+      cartItems.innerHTML = '';
+      cart.forEach(item => {
+        const price = parseInt(item.price.replace('₹', '').replace(',', ''));
+        const itemElement = document.createElement('div');
+        itemElement.className = 'cart-item';
+        itemElement.innerHTML = `
+          <div class="item-info">
+            <div class="item-name">${item.name}</div>
+            <div class="item-price">${item.price} × ${item.quantity} = ₹${price * item.quantity}</div>
+          </div>
+          <div class="item-quantity">
+            <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+            <span class="quantity">${item.quantity}</span>
+            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+            <button class="remove-item" onclick="removeFromCart(${item.id})">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        `;
+        cartItems.appendChild(itemElement);
+      });
+      
+      // Update total
+      cartTotal.textContent = `₹${calculateTotal()}`;
+    }
+
+    // Generate WhatsApp message
+    function generateWhatsAppMessage() {
+      let message = "Hello! I would like to place an order:\n\n";
+      
+      cart.forEach(item => {
+        message += `${item.name} - ${item.quantity} x ${item.price}\n`;
+      });
+      
+      message += `\nTotal: ₹${calculateTotal()}\n\nThank you!`;
+      
+      return encodeURIComponent(message);
+    }
+
+    // Event listeners
+    cartButton.addEventListener('click', () => {
+      cartModal.classList.add('open');
+    });
+    
+    closeCart.addEventListener('click', () => {
+      cartModal.classList.remove('open');
+    });
+    
+    clearCart.addEventListener('click', () => {
+      cart = [];
+      saveCart();
+      updateCartUI();
+    });
+    
+    whatsappOrder.addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      
+      const phoneNumber = "919284969878"; // Replace with your WhatsApp business number
+      const message = generateWhatsAppMessage();
+      window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+    });
+
+    // Close modal when clicking outside
+    cartModal.addEventListener('click', (e) => {
+      if (e.target === cartModal) {
+        cartModal.classList.remove('open');
+      }
+    });
+
+    // Menu rendering functions
+    const menuGrid = document.getElementById('menuGrid');
+    const searchInput = document.getElementById('search');
+    const tabs = document.querySelectorAll('.tab');
+
+    function render(items){
+      menuGrid.innerHTML = items.map(i=>`
+        <article class="card" data-cat="${i.cat}">
+          <div class="thumb"><img src="${i.img}" alt="${i.name}"></div>
+          <div class="info">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
+              <div style="flex:1">
+                <h3 class="dish">${i.name}</h3>
+                <div class="desc">${i.desc}</div>
+              </div>
+              <div style="text-align:right">
+                <div class="price">${i.price}</div>
+                <div style="margin-top:8px">
+                  <button class="btn-primary" onclick="addItemToCartById(${i.id})">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+            <div class="meta-row">
+              <div class="tags">${i.tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    // Function to add item to cart by ID
+    function addItemToCartById(id){
+      const item = data.find(d => d.id === id);
+      if (item) {
+        addItemToCart(item);
+      }
+    }
+
+    // initial render
+    render(data);
+    initCart();
+
+    // search
+    searchInput.addEventListener('input', ()=>{
+      const q = searchInput.value.trim().toLowerCase();
+      const filtered = data.filter(d=> (d.name+ ' '+ d.desc + ' ' + d.tags.join(' ')).toLowerCase().includes(q) );
+      render(filtered);
+    });
+
+    // tabs
+    tabs.forEach(t=>t.addEventListener('click', ()=>{
+      tabs.forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      const cat = t.getAttribute('data-cat');
+      if(cat==='all'){ render(data); return; }
+      render(data.filter(d=>d.cat===cat));
+    }));
+  </script>
+</body>
+
+</html>
+
+
+
+
