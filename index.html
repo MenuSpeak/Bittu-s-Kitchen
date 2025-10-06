@@ -629,6 +629,22 @@
       margin: 8px 0 16px 0;
     }
 
+    .title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.site-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-left: 10px;
+  border-radius: 8px; /* make corners slightly round */
+}
+
+
     /* Tablet and Desktop Styles */
     @media (min-width: 768px) {
       body {
@@ -709,7 +725,11 @@
     <main class="menu">
       <div class="menu-head">
         <div>
-          <h2 class="title"> Bittu's Kitchen</h2>
+          <h2 class="title">
+            Bittu's Kitchen
+          <img src="logo.png" alt="Logo" class="site-logo">
+          </h2>
+
           <div class="subtitle"> • Veg — Non Veg</div>
           <div class="gold-line"></div>
         </div>
@@ -1097,6 +1117,7 @@
 </body>
 
 </html>
+
 
 
 
